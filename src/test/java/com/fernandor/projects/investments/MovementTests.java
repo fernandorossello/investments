@@ -23,9 +23,11 @@ public class MovementTests {
     public void setUp(){
         sale.setQuantity(100);
         sale.setUnitValue(10);
+        sale.setCommission(1);
 
         purchase.setQuantity(500);
         purchase.setUnitValue(5);
+        purchase.setCommission(2);
 
         dividends.setQuantity(200);
     }
@@ -37,7 +39,7 @@ public class MovementTests {
 
     @Test
     public void saleReturnsPositiveMoneyResult(){
-        Assert.assertEquals(1000,sale.getMoneyResult(),0);
+        Assert.assertEquals(999,sale.getMoneyResult(),0);
     }
 
     @Test
@@ -47,7 +49,7 @@ public class MovementTests {
 
     @Test
     public void purchaseReturnsNegativeMoneyResult(){
-        Assert.assertEquals(-2500,purchase.getMoneyResult(),0);
+        Assert.assertEquals(-2502,purchase.getMoneyResult(),0);
     }
 
     @Test

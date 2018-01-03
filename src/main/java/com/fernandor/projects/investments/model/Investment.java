@@ -3,9 +3,16 @@ package com.fernandor.projects.investments.model;
 import com.fernandor.projects.investments.model.movements.Movement;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Investment {
+
+    public Investment(){
+        if(this.movements == null){
+            this.movements = new ArrayList<>();
+        }
+    }
 
     private int id;
 
@@ -40,7 +47,19 @@ public abstract class Investment {
     }
 
     public double getCurrentQuantity(){
-        throw new NotImplementedException();
+
+        double sum = 0;
+
+        for (Movement movement : this.getMovements()) {
+            sum = sum + movement.getQuantityResult();
+        }
+
+        if(sum < 0){
+            String message ="Current quantity can't be negative. Result: " + sum;
+            throw new IllegalStateException(message);
+        }
+
+        return sum;
     }
 
     public Movement buy(){

@@ -1,6 +1,7 @@
 package com.fernandor.projects.investments.model;
 
 import com.fernandor.projects.investments.model.movements.Movement;
+import com.fernandor.projects.investments.model.movements.Purchase;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
@@ -62,15 +63,22 @@ public abstract class Investment {
         return sum;
     }
 
-    public Movement buy(){
+    public Movement buy(OperationParameters parameters){
+
+        if(parameters.getQuantity() == 0){
+            throw new IllegalStateException("No se pueden comprar 0 unidades");
+        }
+
+        Movement purchase =  new Purchase(parameters);
+        this.getMovements().add(purchase);
+        return purchase;
+    }
+
+    public Movement sell(OperationParameters parameters){
         throw new NotImplementedException();
     }
 
-    public Movement sell(){
-        throw new NotImplementedException();
-    }
-
-    public Movement collectDividends(){
+    public Movement collectDividends(OperationParameters parameters){
         throw new NotImplementedException();
     }
 

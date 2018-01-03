@@ -1,7 +1,7 @@
 package com.fernandor.projects.investments.model.movements;
 
-import com.fernandor.projects.investments.model.Currency;
 import com.fernandor.projects.investments.model.Investment;
+import com.fernandor.projects.investments.model.OperationParameters;
 import org.joda.time.DateTime;
 
 
@@ -13,11 +13,20 @@ public abstract class Movement {
 
     private double unitValue;
 
-    private Currency currency;
-
     private double quantity;
 
     private double commission;
+
+    public Movement(OperationParameters parameters) {
+        this();
+
+        this.setQuantity(parameters.getQuantity());
+        this.setUnitValue(parameters.getUnitValue());
+        this.setCommission(parameters.getCommission());
+        this.setDate(parameters.getDate());
+    }
+
+    public Movement() {}
 
     public Investment getInvestment() {
         return investment;
@@ -41,14 +50,6 @@ public abstract class Movement {
 
     public void setUnitValue(double unitValue) {
         this.unitValue = unitValue;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
     }
 
     public double getQuantity() {

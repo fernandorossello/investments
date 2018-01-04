@@ -1,7 +1,10 @@
 package com.fernandor.projects.investments.model;
 
+import com.fernandor.projects.investments.Exceptions.NotEnoughQuantityException;
+import com.fernandor.projects.investments.Exceptions.ZeroQuantityException;
 import com.fernandor.projects.investments.model.movements.Movement;
 import com.fernandor.projects.investments.model.movements.Purchase;
+import com.fernandor.projects.investments.model.movements.Sale;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
@@ -35,6 +38,10 @@ public abstract class Investment {
         this.movements = movements;
     }
 
+    protected void addMovement(Movement movement){
+        this.getMovements().add(movement);
+    };
+
     public double getBenefitPercentage(){
         throw new NotImplementedException();
     }
@@ -63,23 +70,37 @@ public abstract class Investment {
         return sum;
     }
 
-    public Movement buy(OperationParameters parameters){
-
-        if(parameters.getQuantity() == 0){
-            throw new IllegalStateException("No se pueden comprar 0 unidades");
-        }
+    public Movement buy(OperationParameters parameters) throws ZeroQuantityException {
 
         Movement purchase =  new Purchase(parameters);
-        this.getMovements().add(purchase);
+        this.addMovement(purchase);
+
         return purchase;
     }
 
-    public Movement sell(OperationParameters parameters){
-        throw new NotImplementedException();
+
+
+    public Movement sell(OperationParameters parameters) throws NotEnoughQuantityException, ZeroQuantityException {
+
+        Movement sale = new Sale(parameters);
+
+        this.validateEnoughQuantity(parameters.getQuantity());
+
+        this.addMovement(sale);
+
+        return sale;
+    }
+
+    protected void validateEnoughQuantity(double quantity) throws NotEnoughQuantityException{
+        if(getCurrentQuantity() < quantity){
+            throw new NotEnoughQuantityException(getCurrentQuantity(),quantity);
+        }
     }
 
     public Movement collectDividends(OperationParameters parameters){
         throw new NotImplementedException();
     }
+
+
 
 }

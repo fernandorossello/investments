@@ -1,5 +1,6 @@
 package com.fernandor.projects.investments.model;
 
+import com.fernandor.projects.investments.Exceptions.ZeroQuantityException;
 import org.joda.time.DateTime;
 
 public class OperationParameters {
@@ -44,4 +45,9 @@ public class OperationParameters {
         this.commission = commission;
     }
 
+    public void validateQuantity() throws ZeroQuantityException {
+        if(this.getQuantity() == 0){
+            throw new ZeroQuantityException();
+        }
+    }
 }

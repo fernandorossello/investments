@@ -7,9 +7,13 @@ import com.fernandor.projects.investments.model.movements.Purchase;
 import com.fernandor.projects.investments.model.movements.Sale;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "investmentType")
 public abstract class Investment {
 
     public Investment(){
@@ -18,8 +22,11 @@ public abstract class Investment {
         }
     }
 
+    @Id
+    @GeneratedValue
     private int id;
 
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "investment")
     private List<Movement> movements;
 
     public int getId() {

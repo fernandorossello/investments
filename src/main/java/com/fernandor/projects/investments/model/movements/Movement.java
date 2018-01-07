@@ -3,19 +3,40 @@ package com.fernandor.projects.investments.model.movements;
 import com.fernandor.projects.investments.model.Investment;
 import com.fernandor.projects.investments.model.OperationParameters;
 import org.joda.time.DateTime;
+import javax.persistence.*;
 
-
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "movementType")
 public abstract class Movement {
 
+    @Id
+    @GeneratedValue
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="investment_id", nullable=false)
     private Investment investment;
 
+    @Column
     private DateTime date;
 
+    @Column
     private double unitValue;
 
+    @Column
     private double quantity;
 
+    @Column
     private double commission;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Movement(OperationParameters parameters) {
         this();
